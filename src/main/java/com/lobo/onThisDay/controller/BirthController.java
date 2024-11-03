@@ -13,20 +13,20 @@ import java.util.List;
  * @author Gustavo Lobo
  */
 @Controller
-public class BirthdayController {
+public class BirthController {
 
     /**
      * Esse será o primeiro endpoint do projeto!
      * <p>
      * ᕕ(⌐■_■)ᕗ ♪♬
      *
-     * @param birthday - data de nascimento que temporariamente deverá ser em formato "dd/MM",
+     * @param birthDate - data de nascimento que temporariamente deverá ser em formato "dd/MM",
      *                 outros formatos iremos validar apenas futuramente.
      * @return Lista de pessoas nascidas nessa data, (caso haja), ou uma exception caso não encontre ou caso a data esteja
      * num formato não suportado.
      */
     @GetMapping
-    public ResponseEntity<List<?>> getPersonsBornIn(String birthday) {
+    public ResponseEntity<List<?>> getPersonsBornIn(String birthDate) {
         return null;
     }
 
