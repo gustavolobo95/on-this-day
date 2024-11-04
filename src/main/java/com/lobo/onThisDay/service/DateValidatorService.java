@@ -19,7 +19,7 @@ public class DateValidatorService {
             YearMonth dateFormatted = YearMonth.parse(date);
             return true;
         } catch (DateTimeParseException e) {
-            throw new RuntimeException(String.format("Data informada não tem formato suportado: %s", date));
+            throw new DateTimeParseException("Data informada não tem formato suportado: ", date, 0);
         }
     }
 
