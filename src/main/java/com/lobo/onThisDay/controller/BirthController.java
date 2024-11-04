@@ -3,9 +3,11 @@ package com.lobo.onThisDay.controller;
 import com.lobo.onThisDay.model.Person;
 import com.lobo.onThisDay.service.DateValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -33,19 +35,22 @@ public class BirthController {
      * @return Lista de pessoas nascidas nessa data, (caso haja), ou uma exception caso não encontre ou caso a data esteja
      * num formato não suportado.
      */
-    @GetMapping
-    public ResponseEntity<List<?>> getPersonsBornIn(String birthDate) {
+    @GetMapping("/getPersonsBornIn")
+    public ResponseEntity<List<?>> getPersonsBornIn(@RequestParam String birthDate) {
         // TODO: aplicar validação em data e criar testes.
-        if (dateValidatorService.supportsDateFormat(birthDate)) {
-            Person test = new Person("Lobo",
-                                 "Desenvolvedor",
-                                           LocalDate.of(2024, Month.JULY, 11),
-                                     null);
+        try {
+            if (dateValidatorService.supportsDateFormat(birthDate)) {
+                Person test = new Person("Lobo",
+                        "Desenvolvedor",
+                        LocalDate.of(2024, Month.JULY, 11),
+                        null);
 
-            List<Person> personList = List.of(test);
-            return ResponseEntity.ok(personList);
+                List<Person> personList = List.of(test);
+                return ResponseEntity.ok(personList);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         return null;
     }
 
