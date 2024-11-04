@@ -1,6 +1,5 @@
-package com.lobo.on_this_day;
+package com.lobo.onThisDay;
 
-import com.lobo.onThisDay.OnThisDayApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestOnThisDayApplication {

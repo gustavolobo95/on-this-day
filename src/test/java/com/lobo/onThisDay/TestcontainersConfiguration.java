@@ -1,4 +1,4 @@
-package com.lobo.on_this_day;
+package com.lobo.onThisDay;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

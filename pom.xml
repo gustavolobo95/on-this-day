@@ -75,6 +75,18 @@
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.junit.dataprovider</groupId>
+			<artifactId>junit4-dataprovider</artifactId>
+			<version>2.6</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
