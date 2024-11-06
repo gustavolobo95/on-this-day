@@ -30,12 +30,12 @@ public class TestDateValidatorService {
 
     private static Stream<Arguments> badFormatsParameters() {
         return Stream.of(
-                Arguments.of("31-07-1995", String.format(ERRO, "31-07-1995")),
-                Arguments.of("07-31-1995", String.format(ERRO, "07-31-1995")),
-                Arguments.of("1995-07-31", String.format(ERRO, "1995-07-31")),
-                Arguments.of("31/07/1995", String.format(ERRO, "31/07/1995")),
-                Arguments.of("07/31/1995", String.format(ERRO, "07/31/1995")),
-                Arguments.of("1995/07/31", String.format(ERRO, "1995/07/31"))
+                Arguments.of("31-07-1995", ERRO),
+                Arguments.of("07-31-1995", ERRO),
+                Arguments.of("1995-07-31", ERRO),
+                Arguments.of("31/07/1995", ERRO),
+                Arguments.of("07/31/1995", ERRO),
+                Arguments.of("1995/07/31", ERRO)
         );
     }
 
@@ -46,6 +46,6 @@ public class TestDateValidatorService {
         Exception exception = Assertions.assertThrows(RuntimeException.class, () ->
                 dateValidatorService.supportsDateFormat(date));
 
-        Assert.assertEquals(erro, exception.getMessage());
+        Assert.assertEquals(String.format(erro, date), exception.getMessage());
     }
 }
