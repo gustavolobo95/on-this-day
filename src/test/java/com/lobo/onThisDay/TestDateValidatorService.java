@@ -21,7 +21,6 @@ import java.util.stream.Stream;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DateValidatorService.class})
-@EnableConfigurationProperties
 public class TestDateValidatorService {
 
     // TODO: verificar uma forma de conseguir que esse bean seja injetado no contexto de testes
