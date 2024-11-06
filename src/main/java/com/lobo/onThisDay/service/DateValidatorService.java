@@ -22,7 +22,7 @@ public class DateValidatorService {
             MonthDay dateFormatted = MonthDay.parse(date);
             return true;
         } catch (DateTimeParseException e) {
-            throw new DateTimeParseException("Data informada não tem formato suportado: ", date, 0);
+            throw new RuntimeException(String.format("Data informada não tem formato suportado: %s", date));
         }
     }
 

@@ -1,23 +1,27 @@
 package com.lobo.onThisDay;
 
 import com.lobo.onThisDay.service.DateValidatorService;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.junit.Assert;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.format.DateTimeParseException;
+import java.util.stream.Stream;
 
 /**
  * @author Gustavo Lobo
  */
-@SpringBootTest
-@RunWith(DataProviderRunner.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(classes = {DateValidatorService.class})
+@EnableConfigurationProperties
 public class TestDateValidatorService {
 
     // TODO: verificar uma forma de conseguir que esse bean seja injetado no contexto de testes
@@ -27,26 +31,26 @@ public class TestDateValidatorService {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private static final String ERRO = "Data informada não tem formato suportado: ";
+    private static final String ERRO = "Data informada não tem formato suportado: %s";
 
-    @DataProvider
-    public static Object[][] dataProviderBadFormats() {
-        return new Object[][] {
-                {"31-07-1995", new DateTimeParseException(ERRO, "31-07-1995", 0)},
-                {"07-31-1995", new DateTimeParseException(ERRO, "07-31-1995", 0)},
-                {"1995-07-31", new DateTimeParseException(ERRO, "1995-07-31", 0)},
-                {"31/07/1995", new DateTimeParseException(ERRO, "31/07/1995", 0)},
-                {"07/31/1995", new DateTimeParseException(ERRO, "07/31/1995", 0)},
-                {"1995/07/31", new DateTimeParseException(ERRO, "1995/07/31", 0)},
-        };
+    private static Stream<Arguments> badFormatsParameters() {
+        return Stream.of(
+                Arguments.of("31-07-1995", String.format(ERRO, "31-07-1995")),
+                Arguments.of("07-31-1995", String.format(ERRO, "07-31-1995")),
+                Arguments.of("1995-07-31", String.format(ERRO, "1995-07-31")),
+                Arguments.of("31/07/1995", String.format(ERRO, "31/07/1995")),
+                Arguments.of("07/31/1995", String.format(ERRO, "07/31/1995")),
+                Arguments.of("1995/07/31", String.format(ERRO, "1995/07/31"))
+        );
     }
 
-    @Test
-    @UseDataProvider("dataProviderBadFormats")
-    public void testDataProviderBadFormats(String date, DateTimeParseException exception) {
-        dateValidatorService.supportsDateFormat(date);
+    @ParameterizedTest
+    @MethodSource("badFormatsParameters")
+    public void testDataProviderBadFormats(String date, String erro) {
 
-        expectedException.expect(exception.getClass());
-        expectedException.expectMessage(exception.getMessage());
+        Exception exception = Assertions.assertThrows(RuntimeException.class, () ->
+                dateValidatorService.supportsDateFormat(date));
+
+        Assert.assertEquals(erro, exception.getMessage());
     }
 }
