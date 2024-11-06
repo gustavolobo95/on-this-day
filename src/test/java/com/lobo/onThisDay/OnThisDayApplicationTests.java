@@ -1,4 +1,4 @@
-package com.lobo.on_this_day;
+package com.lobo.onThisDay;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
