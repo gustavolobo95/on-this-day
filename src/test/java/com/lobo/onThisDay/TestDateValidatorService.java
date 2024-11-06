@@ -14,6 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.stream.Stream;
 
 /**
+ *
+ * Classe de teste para validação dos inputs de data.
+ *
  * @author Gustavo Lobo
  */
 @ExtendWith(SpringExtension.class)
