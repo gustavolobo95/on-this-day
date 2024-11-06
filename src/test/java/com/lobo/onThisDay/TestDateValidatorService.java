@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 @SpringBootTest(classes = {DateValidatorService.class})
 public class TestDateValidatorService {
 
-    // TODO: verificar uma forma de conseguir que esse bean seja injetado no contexto de testes
     @Autowired
     private DateValidatorService dateValidatorService;
 
