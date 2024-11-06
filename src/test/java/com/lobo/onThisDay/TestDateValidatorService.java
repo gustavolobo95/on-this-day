@@ -26,9 +26,6 @@ public class TestDateValidatorService {
     @Autowired
     private DateValidatorService dateValidatorService;
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     private static final String ERRO = "Data informada não tem formato suportado: %s";
 
     private static Stream<Arguments> badFormatsParameters() {
