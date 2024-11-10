@@ -16,9 +16,6 @@ public class DateValidatorService {
 
     public boolean supportsDateFormat(String date) {
         try {
-            // TODO: Verificar um objeto que possa representar data no formato de "dd/MM", essa apesar de cumprir o
-            //  proposito precisa que a data venha no formato "--MM-dd".
-
             MonthDay dateFormatted = MonthDay.parse(date);
             return true;
         } catch (DateTimeParseException e) {
