@@ -1,6 +1,7 @@
 package com.lobo.onThisDay.controller;
 
 import com.lobo.onThisDay.model.Person;
+import com.lobo.onThisDay.service.BirthService;
 import com.lobo.onThisDay.service.DateValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.MonthDay;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class BirthController {
 
     @Autowired
     DateValidatorService dateValidatorService;
+
+    @Autowired
+    BirthService birthService;
 
     /**
      * Esse será o primeiro endpoint do projeto!
@@ -40,13 +45,8 @@ public class BirthController {
         // TODO: aplicar validação em data e criar testes.
         try {
             if (dateValidatorService.supportsDateFormat(birthDate)) {
-                Person test = new Person("Lobo",
-                        "Desenvolvedor",
-                        LocalDate.of(2024, Month.JULY, 11),
-                        null);
-
-                List<Person> personList = List.of(test);
-                return ResponseEntity.ok(personList);
+                MonthDay date = MonthDay.parse(birthDate);
+                birthService.getPersonsBornIn(date);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
