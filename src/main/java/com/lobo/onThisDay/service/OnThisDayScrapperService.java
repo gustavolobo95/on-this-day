@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 public class OnThisDayScrapperService {
 
+    // TODO: Talvez alterar a url base para ser especifica para nascimentos, outros eventos podem ter uma url em formato diferente.
     private static final String BASE_URL = "https://www.onthisday.com/%s/%s/%d";
     private static final String BIRTH_EVENTS_URL = "birthdays";
 
