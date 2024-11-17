@@ -20,6 +20,13 @@ public class BirthService {
     @Autowired
     private OnThisDayScrapperService onThisDayScrapperService;
 
+    /**
+     * Esse metodo temporariamente ainda busca apenas as pessoas de destaque nas paginas de nascimento, será incrementado
+     * futuramente para buscar a todos.
+     * @param date
+     * @return
+     * @throws IOException
+     */
     public List<Person> getPersonsBornIn(MonthDay date) throws IOException {
         return onThisDayScrapperService.getHighlightPersonsBornIn(date);
     }
