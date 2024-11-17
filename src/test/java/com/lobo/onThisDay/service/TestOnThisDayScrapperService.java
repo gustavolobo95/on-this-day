@@ -26,9 +26,9 @@ public class TestOnThisDayScrapperService {
  private OnThisDayScrapperService onThisDayScrapperService;
 
  @Test
- public void testGetRequestForPersonsBornIn() throws IOException {
+ public void testGetHighlightPersonsBornIn() throws IOException {
   MonthDay date = MonthDay.of(Month.DECEMBER, 25);
-  List<Person> returned = onThisDayScrapperService.getRequestForPersonsBornIn(date);
+  List<Person> returned = onThisDayScrapperService.getHighlightPersonsBornIn(date);
   for (Person person : returned) {
    System.out.println(person);
    System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
