@@ -13,7 +13,6 @@ import java.time.MonthDay;
 import java.util.List;
 
 /**
- *
  * Classe de teste para o service de Scrapper do onthisday.com
  *
  * @author Gustavo Lobo
@@ -22,18 +21,18 @@ import java.util.List;
 @SpringBootTest(classes = {OnThisDayScrapperService.class})
 public class TestOnThisDayScrapperService {
 
- @Autowired
- private OnThisDayScrapperService onThisDayScrapperService;
+    @Autowired
+    private OnThisDayScrapperService onThisDayScrapperService;
 
- @Test
- public void testGetHighlightPersonsBornIn() throws IOException {
-  MonthDay date = MonthDay.of(Month.DECEMBER, 25);
-  List<Person> returned = onThisDayScrapperService.getHighlightPersonsBornIn(date);
-  for (Person person : returned) {
-   System.out.println(person);
-   System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-  }
+    @Test
+    public void testGetHighlightPersonsBornIn() throws IOException {
+        MonthDay date = MonthDay.of(Month.DECEMBER, 25);
+        List<Person> returned = onThisDayScrapperService.getHighlightPersonsBornIn(date);
+        for (Person person : returned) {
+            System.out.println(person);
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
 
- }
+    }
 
 }
