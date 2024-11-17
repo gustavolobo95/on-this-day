@@ -35,7 +35,7 @@ public class OnThisDayScrapperService {
      * @param date
      * @return lista de pessoas nascidas em "x" dia.
      */
-    public List<Person> getRequestForPersonsBornIn(MonthDay date) throws IOException {
+    public List<Person> getHighlightPersonsBornIn(MonthDay date) throws IOException {
         int day = date.getDayOfMonth();
         Month month = date.getMonth();
 
