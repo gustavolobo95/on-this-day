@@ -1,8 +1,12 @@
 package com.lobo.onThisDay.service;
 
+import com.lobo.onThisDay.model.Person;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.MonthDay;
+import java.util.List;
 
 /**
  *
@@ -13,7 +17,11 @@ import java.time.MonthDay;
 @Service
 public class BirthService {
 
-    public void getPersonsBornIn(MonthDay date) {
+    @Autowired
+    private OnThisDayScrapperService onThisDayScrapperService;
 
+    public List<Person> getPersonsBornIn(MonthDay date) throws IOException {
+        return onThisDayScrapperService.getHighlightPersonsBornIn(date);
     }
+
 }
