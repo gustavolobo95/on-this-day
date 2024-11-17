@@ -1,6 +1,7 @@
 package com.lobo.onThisDay;
 
 import com.lobo.onThisDay.service.DateValidatorService;
+import com.lobo.onThisDay.service.MonthDayConverter;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,11 +21,14 @@ import java.util.stream.Stream;
  * @author Gustavo Lobo
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {DateValidatorService.class})
+@SpringBootTest(classes = {DateValidatorService.class, MonthDayConverter.class})
 public class TestDateValidatorService {
 
     @Autowired
     private DateValidatorService dateValidatorService;
+
+    @Autowired
+    private MonthDayConverter monthDayConverter;
 
     private static final String ERRO = "Data informada não tem formato suportado: %s";
 
