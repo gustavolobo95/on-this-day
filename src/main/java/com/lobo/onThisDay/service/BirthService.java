@@ -24,8 +24,7 @@ public class BirthService {
      * Esse metodo temporariamente ainda busca apenas as pessoas de destaque nas paginas de nascimento, será incrementado
      * futuramente para buscar a todos.
      * @param date
-     * @return
-     * @throws IOException
+     * @return lista de pessoas nascidas em dia "x"
      */
     public List<Person> getPersonsBornIn(MonthDay date) {
         return onThisDayScrapperService.getHighlightPersonsBornIn(date);
