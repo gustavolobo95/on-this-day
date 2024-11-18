@@ -27,7 +27,7 @@ public class BirthService {
      * @return
      * @throws IOException
      */
-    public List<Person> getPersonsBornIn(MonthDay date) throws IOException {
+    public List<Person> getPersonsBornIn(MonthDay date) {
         return onThisDayScrapperService.getHighlightPersonsBornIn(date);
     }
 
