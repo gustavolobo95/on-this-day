@@ -1,7 +1,7 @@
 package com.lobo.onThisDay;
 
 import com.lobo.onThisDay.service.DateValidatorService;
-import com.lobo.onThisDay.service.MonthDayConverter;
+import com.lobo.onThisDay.component.MonthDayConverter;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;

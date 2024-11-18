@@ -1,4 +1,4 @@
-package com.lobo.onThisDay.service;
+package com.lobo.onThisDay.component;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

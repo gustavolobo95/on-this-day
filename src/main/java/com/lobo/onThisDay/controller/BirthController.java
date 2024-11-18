@@ -2,7 +2,7 @@ package com.lobo.onThisDay.controller;
 
 import com.lobo.onThisDay.service.BirthService;
 import com.lobo.onThisDay.service.DateValidatorService;
-import com.lobo.onThisDay.service.MonthDayConverter;
+import com.lobo.onThisDay.component.MonthDayConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
