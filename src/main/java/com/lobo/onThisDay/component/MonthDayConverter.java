@@ -1,10 +1,12 @@
 package com.lobo.onThisDay.component;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  *
@@ -16,6 +18,10 @@ import java.time.format.DateTimeFormatter;
 public class MonthDayConverter implements Converter<String, MonthDay> {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+
+    public Optional<MonthDay> convertDate(String source) {
+        return StringUtils.isNotBlank(source) ? Optional.of(convert(source)) : Optional.empty();
+    }
 
     @Override
     public MonthDay convert(String source) {
