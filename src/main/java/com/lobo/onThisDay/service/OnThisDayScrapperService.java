@@ -91,7 +91,7 @@ public class OnThisDayScrapperService {
     }
 
     // TODO: Adicionar teste unitario.
-    private String formatDescriptionElement(String descriptionUnformmated) {
+    protected String formatDescriptionElement(String descriptionUnformmated) {
         // Remove a tag <p> e </p>
         String noPTags = descriptionUnformmated.replaceAll("<\\/?p>", "");
 
