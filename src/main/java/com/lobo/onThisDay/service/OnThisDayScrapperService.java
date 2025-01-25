@@ -14,6 +14,7 @@ import java.time.MonthDay;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -69,24 +70,13 @@ public class OnThisDayScrapperService {
 
     private void fillPersonsList(Elements highlights, List<PersonDTO> personDTOList) {
 
-        String personName;
-        String livingPeriodOrAge;
-
         for(Element personElement : highlights) {
 
             PersonDTO personDTO = new PersonDTO();
 
             Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
 
-            for(Element title : spanTitles) {
-                String[] nameAndDate = title.toString().split("<span class=\"poi__date\">");
-                if (nameAndDate.length == 2) {
-                    personName = nameAndDate[0].replaceAll("<span class=\"poi__heading-txt\">", "").trim();
-                    livingPeriodOrAge = nameAndDate[1].replaceAll("</span></span>", "").trim();
-                    personDTO.setName(personName);
-                    personDTO.setLivingPeriodOrAge(livingPeriodOrAge);
-                }
-            }
+            fillNameAndLivingPeriod(spanTitles, personDTO);
 
             Elements gridToGetDescription = personElement.getElementsByClass("grid__item one-half--768 five-twelfths--1024");
 
@@ -102,6 +92,25 @@ public class OnThisDayScrapperService {
 
             personDTOList.add(personDTO);
         }
+    }
+
+    protected void fillNameAndLivingPeriod(Elements spanTitles, PersonDTO personDTO) {
+        spanTitles.stream()
+                .map(title -> title.toString().split("<span class=\"poi__date\">"))
+                .filter(nameAndDate -> nameAndDate.length == 2)
+                .forEach(nameAndDate -> {
+                    String name = Optional.of(nameAndDate[0])
+                            .map(n -> n.replaceAll("<span class=\"poi__heading-txt\">", "").trim())
+                            .orElse(""); // Valor padrão para evitar nulls
+
+                    String date = Optional.of(nameAndDate[1])
+                            .map(d -> d.replaceAll("</span></span>", "").trim())
+                            .orElse(""); // Valor padrão para evitar nulls
+
+                    personDTO.setName(name);
+                    personDTO.setLivingPeriodOrAge(date);
+                }
+        );
     }
 
     protected String formatDescriptionElement(String descriptionUnformmated) {
