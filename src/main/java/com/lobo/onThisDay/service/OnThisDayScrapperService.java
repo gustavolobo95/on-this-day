@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.Month;
 import java.time.MonthDay;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -41,8 +42,6 @@ public class OnThisDayScrapperService {
         int day = date.getDayOfMonth();
         Month month = date.getMonth();
 
-        String personName;
-        String livingPeriodOrAge;
         List<Person> returnedPersons = new ArrayList<>();
 
         try {
@@ -51,46 +50,60 @@ public class OnThisDayScrapperService {
             // Pegando todas as pessoas que são marcadas como destaque:
             Elements highlights = document.getElementsByClass("section section--highlight section--poi section--poi-b");
 
-            for(Element personElement : highlights) {
-
-                Person person = new Person();
-
-                Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
-
-                for(Element title : spanTitles) {
-                    String[] nameAndDate = title.toString().split("<span class=\"poi__date\">");
-                    if (nameAndDate.length == 2) {
-                        personName = nameAndDate[0].replaceAll("<span class=\"poi__heading-txt\">", "").trim();
-                        livingPeriodOrAge = nameAndDate[1].replaceAll("</span></span>", "").trim();
-                        person.setName(personName);
-                        person.setLivingPeriodOrAge(livingPeriodOrAge);
-                    }
-                }
-
-                Elements gridToGetDescription = personElement.getElementsByClass("grid__item one-half--768 five-twelfths--1024");
-
-                Element grid = gridToGetDescription.stream()
-                        .findFirst()
-                        .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum destaque."));
-
-                String descriptionUnformmated = grid.getElementsByTag("p").toString();
-
-                String description = formatDescriptionElement(descriptionUnformmated);
-
-                person.setDescription(description);
-
-                returnedPersons.add(person);
-            }
+            fillPersonsList(highlights, returnedPersons);
 
         } catch (Exception e) {
             LOGGER.error("Ocorreu um erro durante o web scrapping: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
 
+        returnedPersons = orderPersonListByName(returnedPersons);
+
         return returnedPersons;
     }
 
-    // TODO: Adicionar teste unitario.
+    protected List<Person> orderPersonListByName(List<Person> returnedPersons) {
+        returnedPersons = returnedPersons.stream().sorted(Comparator.comparing(Person::getName)).toList();
+        return returnedPersons;
+    }
+
+    private void fillPersonsList(Elements highlights, List<Person> personList) {
+
+        String personName;
+        String livingPeriodOrAge;
+
+        for(Element personElement : highlights) {
+
+            Person person = new Person();
+
+            Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
+
+            for(Element title : spanTitles) {
+                String[] nameAndDate = title.toString().split("<span class=\"poi__date\">");
+                if (nameAndDate.length == 2) {
+                    personName = nameAndDate[0].replaceAll("<span class=\"poi__heading-txt\">", "").trim();
+                    livingPeriodOrAge = nameAndDate[1].replaceAll("</span></span>", "").trim();
+                    person.setName(personName);
+                    person.setLivingPeriodOrAge(livingPeriodOrAge);
+                }
+            }
+
+            Elements gridToGetDescription = personElement.getElementsByClass("grid__item one-half--768 five-twelfths--1024");
+
+            Element grid = gridToGetDescription.stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum destaque."));
+
+            String descriptionUnformmated = grid.getElementsByTag("p").toString();
+
+            String description = formatDescriptionElement(descriptionUnformmated);
+
+            person.setDescription(description);
+
+            personList.add(person);
+        }
+    }
+
     protected String formatDescriptionElement(String descriptionUnformmated) {
         // Remove a tag <p> e </p>
         String noPTags = descriptionUnformmated.replaceAll("<\\/?p>", "");
