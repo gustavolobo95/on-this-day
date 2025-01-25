@@ -72,26 +72,31 @@ public class OnThisDayScrapperService {
 
         for(Element personElement : highlights) {
 
-            PersonDTO personDTO = new PersonDTO();
-
-            Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
-
-            fillNameAndLivingPeriod(spanTitles, personDTO);
-
             Elements gridToGetDescription = personElement.getElementsByClass("grid__item one-half--768 five-twelfths--1024");
 
             Element grid = gridToGetDescription.stream()
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum destaque."));
 
-            String descriptionUnformmated = grid.getElementsByTag("p").toString();
+            PersonDTO personDTO = new PersonDTO();
 
-            String description = formatDescriptionElement(descriptionUnformmated);
+            Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
 
-            personDTO.setDescription(description);
+            fillNameAndLivingPeriod(spanTitles, personDTO);
+
+            fillPersonDescription(grid, personDTO);
 
             personDTOList.add(personDTO);
         }
+    }
+
+    protected void fillPersonDescription(Element grid, PersonDTO personDTO) {
+
+        String descriptionUnformmated = grid.getElementsByTag("p").toString();
+
+        String description = formatDescriptionElement(descriptionUnformmated);
+
+        personDTO.setDescription(description);
     }
 
     protected void fillNameAndLivingPeriod(Elements spanTitles, PersonDTO personDTO) {
