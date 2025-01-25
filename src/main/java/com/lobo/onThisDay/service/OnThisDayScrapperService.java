@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.service;
 
-import com.lobo.onThisDay.model.Person;
+import com.lobo.onThisDay.model.PersonDTO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,11 +38,11 @@ public class OnThisDayScrapperService {
      * @param date
      * @return lista de pessoas nascidas em "x" dia.
      */
-    public List<Person> getHighlightPersonsBornIn(MonthDay date) {
+    public List<PersonDTO> getHighlightPersonsBornIn(MonthDay date) {
         int day = date.getDayOfMonth();
         Month month = date.getMonth();
 
-        List<Person> returnedPersons = new ArrayList<>();
+        List<PersonDTO> returnedPersonDTOS = new ArrayList<>();
 
         try {
             Document document = Jsoup.connect(String.format(BASE_URL, BIRTH_EVENTS_URL, month.toString(), day)).get();
@@ -50,31 +50,31 @@ public class OnThisDayScrapperService {
             // Pegando todas as pessoas que são marcadas como destaque:
             Elements highlights = document.getElementsByClass("section section--highlight section--poi section--poi-b");
 
-            fillPersonsList(highlights, returnedPersons);
+            fillPersonsList(highlights, returnedPersonDTOS);
 
         } catch (Exception e) {
             LOGGER.error("Ocorreu um erro durante o web scrapping: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
 
-        returnedPersons = orderPersonListByName(returnedPersons);
+        returnedPersonDTOS = orderPersonListByName(returnedPersonDTOS);
 
-        return returnedPersons;
+        return returnedPersonDTOS;
     }
 
-    protected List<Person> orderPersonListByName(List<Person> returnedPersons) {
-        returnedPersons = returnedPersons.stream().sorted(Comparator.comparing(Person::getName)).toList();
-        return returnedPersons;
+    protected List<PersonDTO> orderPersonListByName(List<PersonDTO> returnedPersonDTOS) {
+        returnedPersonDTOS = returnedPersonDTOS.stream().sorted(Comparator.comparing(PersonDTO::getName)).toList();
+        return returnedPersonDTOS;
     }
 
-    private void fillPersonsList(Elements highlights, List<Person> personList) {
+    private void fillPersonsList(Elements highlights, List<PersonDTO> personDTOList) {
 
         String personName;
         String livingPeriodOrAge;
 
         for(Element personElement : highlights) {
 
-            Person person = new Person();
+            PersonDTO personDTO = new PersonDTO();
 
             Elements spanTitles = personElement.getElementsByClass("poi__heading-txt");
 
@@ -83,8 +83,8 @@ public class OnThisDayScrapperService {
                 if (nameAndDate.length == 2) {
                     personName = nameAndDate[0].replaceAll("<span class=\"poi__heading-txt\">", "").trim();
                     livingPeriodOrAge = nameAndDate[1].replaceAll("</span></span>", "").trim();
-                    person.setName(personName);
-                    person.setLivingPeriodOrAge(livingPeriodOrAge);
+                    personDTO.setName(personName);
+                    personDTO.setLivingPeriodOrAge(livingPeriodOrAge);
                 }
             }
 
@@ -98,9 +98,9 @@ public class OnThisDayScrapperService {
 
             String description = formatDescriptionElement(descriptionUnformmated);
 
-            person.setDescription(description);
+            personDTO.setDescription(description);
 
-            personList.add(person);
+            personDTOList.add(personDTO);
         }
     }
 

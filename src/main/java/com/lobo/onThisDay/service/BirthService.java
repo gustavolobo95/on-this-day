@@ -1,10 +1,9 @@
 package com.lobo.onThisDay.service;
 
-import com.lobo.onThisDay.model.Person;
+import com.lobo.onThisDay.model.PersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.MonthDay;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class BirthService {
      * @param date
      * @return lista de pessoas nascidas em dia "x"
      */
-    public List<Person> getPersonsBornIn(MonthDay date) {
+    public List<PersonDTO> getPersonsBornIn(MonthDay date) {
         return onThisDayScrapperService.getHighlightPersonsBornIn(date);
     }
 

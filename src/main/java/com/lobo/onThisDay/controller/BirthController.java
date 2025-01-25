@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.controller;
 
-import com.lobo.onThisDay.model.Person;
+import com.lobo.onThisDay.model.PersonDTO;
 import com.lobo.onThisDay.service.BirthService;
 import com.lobo.onThisDay.component.MonthDayConverter;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class BirthController {
      * num formato não suportado.
      */
     @GetMapping("/getPersonsBornIn")
-    public ResponseEntity<List<Person>> getPersonsBornIn(@RequestParam String birthDate) {
+    public ResponseEntity<List<PersonDTO>> getPersonsBornIn(@RequestParam String birthDate) {
         return monthDayConverter.convertDate(birthDate)
                 .map(birth ->
                         ResponseEntity.ok(birthService.getPersonsBornIn(birth))
