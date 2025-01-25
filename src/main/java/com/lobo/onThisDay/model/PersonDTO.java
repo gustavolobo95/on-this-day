@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * Model para representar pessoas, de inicio esse model terá muita influecia da feature de consulta de nascimentos.
+ * DTO para representar pessoas, de inicio esse DTO terá muita influecia da feature de consulta de nascimentos.
  *
  * @author Gustavo Lobo
  */
