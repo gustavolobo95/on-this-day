@@ -1,6 +1,8 @@
 package com.lobo.onThisDay.service;
 
 import com.lobo.onThisDay.model.PersonDTO;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  *
@@ -101,21 +104,39 @@ public class OnThisDayScrapperService {
 
     protected void fillNameAndLivingPeriod(Elements spanTitles, PersonDTO personDTO) {
         spanTitles.stream()
-                .map(title -> title.toString().split("<span class=\"poi__date\">"))
-                .filter(nameAndDate -> nameAndDate.length == 2)
-                .forEach(nameAndDate -> {
-                    String name = Optional.of(nameAndDate[0])
-                            .map(n -> n.replaceAll("<span class=\"poi__heading-txt\">", "").trim())
-                            .orElse(""); // Valor padrão para evitar nulls
+                .map(this::splitTitle)
+                .filter(this::containsTwoElements)
+                .map(this::extractNameAndDate)
+                .forEach(nameAndDate -> fillPersonDTOWithNameAndLivingPeriod(personDTO, nameAndDate));
+    }
 
-                    String date = Optional.of(nameAndDate[1])
-                            .map(d -> d.replaceAll("</span></span>", "").trim())
-                            .orElse(""); // Valor padrão para evitar nulls
+    protected String[] splitTitle(Element element) {
+        return element.toString().split("<span class=\"poi__date\">");
+    }
 
-                    personDTO.setName(name);
-                    personDTO.setLivingPeriodOrAge(date);
-                }
-        );
+    protected boolean containsTwoElements(String[] nameAndDate) {
+        return nameAndDate != null &&
+                nameAndDate.length == 2;
+    }
+
+    protected Pair<String, String > extractNameAndDate(String[] nameAndDate) {
+        Function<String, String> cleanText = text -> StringUtils.isBlank(text) ? "" : text
+                .replaceAll("<span class=\"poi__heading-txt\">", "")
+                .replaceAll("</span></span>", "")
+                .trim();
+
+        String nameUnformatted = nameAndDate[0];
+        String dateUnformatted = nameAndDate[1];
+
+        String name = cleanText.apply(nameUnformatted);
+        String date = cleanText.apply(dateUnformatted);
+
+        return Pair.of(name, date);
+    }
+
+    protected void fillPersonDTOWithNameAndLivingPeriod(PersonDTO personDTO, Pair<String, String> nameAndDate) {
+        personDTO.setName(nameAndDate.getKey());
+        personDTO.setLivingPeriodOrAge(nameAndDate.getValue());
     }
 
     protected String formatDescriptionElement(String descriptionUnformmated) {
