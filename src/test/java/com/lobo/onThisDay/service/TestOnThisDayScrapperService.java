@@ -1,9 +1,13 @@
 package com.lobo.onThisDay.service;
 
 import com.lobo.onThisDay.model.PersonDTO;
+import org.jsoup.nodes.Element;
+import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -65,6 +69,19 @@ public class TestOnThisDayScrapperService {
         List<PersonDTO> expected = expectedPersonsBornIn25December();
 
         assertEquals(expected, returned);
+    }
+
+    @Test
+    @DisplayName("Testa o metodo que divide o array de nome e data em 2")
+    public void testSplitTitle() {
+        Element element = Mockito.mock(Element.class);
+        Mockito.when(element.toString()).thenReturn("<span class=\"poi__heading-txt\">Pius VI <span class=\"poi__date\">(1717-1799)</span></span>");
+        String[] arrayExpected = {"<span class=\"poi__heading-txt\">Pius VI ", "(1717-1799)</span></span>"};
+        String[] arrayReturned = onThisDayScrapperService.splitTitle(element);
+
+        assertEquals(arrayExpected[0], arrayReturned[0]);
+        assertEquals(arrayExpected[1], arrayReturned[1]);
+
     }
 
 }
