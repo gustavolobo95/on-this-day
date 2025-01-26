@@ -3,11 +3,10 @@ package com.lobo.onThisDay.service;
 import com.lobo.onThisDay.model.PersonDTO;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Element;
-import org.junit.Assert;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -110,6 +109,28 @@ public class TestOnThisDayScrapperService {
 
         // Assert da data
         assertEquals(pairExpected.getValue(), pairReturned.getValue());
+    }
+
+    @Test
+    @DisplayName("Teste de verify para o preenchimento e tratamento da descrição da pessoa.")
+    public void testFillPersonDescription() {
+
+        onThisDayScrapperService = Mockito.spy(onThisDayScrapperService);
+
+        Element gridMock = Mockito.mock(Element.class);
+        Elements elementsOfGrid = Mockito.mock(Elements.class);
+        PersonDTO personDTO = Mockito.mock(PersonDTO.class);
+
+        String descriptionUnformatted = "<p>Italian Pope (1775-99), born in Cesena, Emilia-Romagna, Papal States</p>";
+
+        Mockito.when(gridMock.getElementsByTag("p")).thenReturn(elementsOfGrid);
+        Mockito.when(elementsOfGrid.toString()).thenReturn(descriptionUnformatted);
+
+        onThisDayScrapperService.fillPersonDescription(gridMock, personDTO);
+
+        Mockito.verify(onThisDayScrapperService).formatDescriptionElement(descriptionUnformatted);
+        Mockito.verify(personDTO).setDescription("Italian Pope (1775-99), born in Cesena, Emilia-Romagna, Papal States");
+
     }
 
     @Test
