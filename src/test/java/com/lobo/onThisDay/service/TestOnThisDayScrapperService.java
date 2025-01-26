@@ -112,4 +112,17 @@ public class TestOnThisDayScrapperService {
         assertEquals(pairExpected.getValue(), pairReturned.getValue());
     }
 
+    @Test
+    @DisplayName("Teste de verify para garantir que invocou os setters do DTO")
+    public void testFillPersonDTOWithNameAndLivingPeriod() {
+        PersonDTO personDTO = Mockito.mock(PersonDTO.class);
+
+        Pair<String, String> pairNameAndDate = Pair.of("Pius VI", "(1717-1799)");
+
+        onThisDayScrapperService.fillPersonDTOWithNameAndLivingPeriod(personDTO, pairNameAndDate);
+
+        Mockito.verify(personDTO).setName(pairNameAndDate.getKey());
+        Mockito.verify(personDTO).setLivingPeriodOrAge(pairNameAndDate.getValue());
+    }
+
 }
