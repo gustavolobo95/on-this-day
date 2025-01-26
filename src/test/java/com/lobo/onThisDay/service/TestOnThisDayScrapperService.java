@@ -18,7 +18,7 @@ import java.time.MonthDay;
 import java.util.List;
 
 import static com.lobo.onThisDay.service.FixturePersonExpected.expectedPersonsBornIn25December;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Classe de teste para o service de Scrapper do onthisday.com
@@ -84,4 +84,15 @@ public class TestOnThisDayScrapperService {
 
     }
 
+    @Test
+    @DisplayName("Testa se o array não é nulo e se contem 2 elementos")
+    public void testContainsTwoElements() {
+        String[] validArray = {"Pius VI", "(1717-1799)"};
+        String[] invalidNullArray = null;
+        String[] invalidArrayWithDifferentLength = {"Corinthians"};
+
+        assertTrue(onThisDayScrapperService.containsTwoElements(validArray));
+        assertFalse(onThisDayScrapperService.containsTwoElements(invalidNullArray));
+        assertFalse(onThisDayScrapperService.containsTwoElements(invalidArrayWithDifferentLength));
+    }
 }
