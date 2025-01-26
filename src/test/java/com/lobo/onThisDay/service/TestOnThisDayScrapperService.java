@@ -1,6 +1,7 @@
 package com.lobo.onThisDay.service;
 
 import com.lobo.onThisDay.model.PersonDTO;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Element;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
@@ -95,4 +96,20 @@ public class TestOnThisDayScrapperService {
         assertFalse(onThisDayScrapperService.containsTwoElements(invalidNullArray));
         assertFalse(onThisDayScrapperService.containsTwoElements(invalidArrayWithDifferentLength));
     }
+
+    @Test
+    @DisplayName("Testa o tratamento do array de nome e data, removendo as tags restantes")
+    public void testExtractNameAndDate() {
+        String[] nameAndDate = {"<span class=\"poi__heading-txt\">Pius VI ", "(1717-1799)</span></span>"};
+
+        Pair<String, String> pairExpected = Pair.of("Pius VI", "(1717-1799)");
+        Pair<String, String> pairReturned = onThisDayScrapperService.extractNameAndDate(nameAndDate);
+
+        // Assert do nome
+        assertEquals(pairExpected.getKey(), pairReturned.getKey());
+
+        // Assert da data
+        assertEquals(pairExpected.getValue(), pairReturned.getValue());
+    }
+
 }
