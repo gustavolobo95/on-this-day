@@ -101,6 +101,7 @@ public class OnThisDayScrapperService {
         personDTO.setDescription(description);
     }
 
+    // TODO: Realizar teste para metodo, acredito que possa ser um verify inOrder (pesquisar como fazer)
     protected void fillNameAndLivingPeriod(Elements spanTitles, PersonDTO personDTO) {
         spanTitles.stream()
                 .map(this::splitTitle)
