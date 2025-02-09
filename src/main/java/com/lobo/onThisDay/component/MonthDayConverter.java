@@ -20,7 +20,7 @@ public class MonthDayConverter implements Converter<String, MonthDay> {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
 
     public Optional<MonthDay> convertDate(String source) {
-        return StringUtils.isNotBlank(source) ? Optional.of(convert(source)) : Optional.empty();
+        return Optional.ofNullable(convert(source));
     }
 
     @Override
