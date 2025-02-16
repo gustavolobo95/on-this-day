@@ -7,6 +7,7 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +16,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 import java.time.Month;
 import java.time.MonthDay;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.lobo.onThisDay.service.FixturePersonExpected.expectedPersonsBornIn25December;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.inOrder;
 
 /**
  * Classe de teste para o service de Scrapper do onthisday.com
@@ -144,6 +150,44 @@ public class TestOnThisDayScrapperService {
 
         Mockito.verify(personDTO).setName(pairNameAndDate.getKey());
         Mockito.verify(personDTO).setLivingPeriodOrAge(pairNameAndDate.getValue());
+    }
+
+    @Test
+    public void testFillNameAndLivingPeriod() {
+        onThisDayScrapperService = Mockito.spy(onThisDayScrapperService);
+
+        Element span1 = Mockito.mock(Element.class);
+        Element span2 = Mockito.mock(Element.class);
+
+        final String[] titlesForSpan1 = {"<span class=\"poi__heading-txt\">Pius VI ", "(1717-1799)</span></span>"};
+        final String[] titlesForSpan2 = {"<span class=\"poi__heading-txt\">Clara Barton ",  "(1821-1912)</span></span>"};
+
+        Pair<String, String> nameAndDatePiusVI = Pair.of("Pius VI", "(1717-1799)");
+        Pair<String, String> nameAndDateClaraBarton = Pair.of("Clara Barton", "(1821-1912)");
+
+        // Ajuste na configuração do mock para retornar o array diretamente
+        Mockito.doAnswer(invocationOnMock -> titlesForSpan1).when(onThisDayScrapperService).splitTitle(span1);
+        Mockito.doAnswer(invocationOnMock -> nameAndDatePiusVI).when(onThisDayScrapperService).extractNameAndDate(titlesForSpan1);
+
+        Mockito.doAnswer(invocationOnMock -> titlesForSpan2).when(onThisDayScrapperService).splitTitle(span2);
+        Mockito.doAnswer(invocationOnMock -> nameAndDateClaraBarton).when(onThisDayScrapperService).extractNameAndDate(titlesForSpan2);
+
+        // Criação da lista diretamente, em vez de mockar o array
+        Elements mockSpanTitles = new Elements(span1, span2);
+        PersonDTO personDTO = new PersonDTO();
+        onThisDayScrapperService.fillNameAndLivingPeriod(mockSpanTitles, personDTO);
+
+        InOrder inOrder = inOrder(onThisDayScrapperService);
+        inOrder.verify(onThisDayScrapperService).splitTitle(span1);
+        inOrder.verify(onThisDayScrapperService).containsTwoElements(titlesForSpan1);
+        inOrder.verify(onThisDayScrapperService).extractNameAndDate(titlesForSpan1);
+        inOrder.verify(onThisDayScrapperService).fillPersonDTOWithNameAndLivingPeriod(personDTO, nameAndDatePiusVI);
+
+        inOrder.verify(onThisDayScrapperService).splitTitle(span2);
+        inOrder.verify(onThisDayScrapperService).containsTwoElements(titlesForSpan2);
+        inOrder.verify(onThisDayScrapperService).extractNameAndDate(titlesForSpan2);
+        inOrder.verify(onThisDayScrapperService).fillPersonDTOWithNameAndLivingPeriod(personDTO, nameAndDateClaraBarton);
+
     }
 
 }

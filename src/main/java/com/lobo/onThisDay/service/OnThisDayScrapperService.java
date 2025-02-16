@@ -36,7 +36,6 @@ public class OnThisDayScrapperService {
      * Esse metodo será o responsável por fazer os requests da lista de nascidos na fonte do onthisday, de inicio estamos
      * buscando apenas as pessoas que estão em sessões de destaque na pagina.
      * <p>
-     * TODO: Refatorar em pequenos metodos, adicionar validações e criar testes.
      *
      * @param date
      * @return lista de pessoas nascidas em "x" dia.
