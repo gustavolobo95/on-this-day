@@ -64,7 +64,7 @@ public class TestOnThisDayScrapperService {
 
     @Test
     @DisplayName("Testa se a lista de pessoas coletadas para o dia 25 de dezembro é igual a esperada.")
-    public void testGetHighlightPersonsBornIn() throws IOException {
+    public void testGetHighlightPersonsBornIn() {
         MonthDay date = MonthDay.of(Month.DECEMBER, 25);
 
         List<PersonDTO> returned = onThisDayScrapperService.getHighlightPersonsBornIn(date);
