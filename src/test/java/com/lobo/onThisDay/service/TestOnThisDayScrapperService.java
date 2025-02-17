@@ -149,7 +149,8 @@ public class TestOnThisDayScrapperService {
     }
 
     @Test
-    public void testFillNameAndLivingPeriod() {
+    @DisplayName("Testa a ordem de execução dos metodos internos do fillNameAndLivingPeriod")
+    public void testFillNameAndLivingPeriodInOrder() {
         onThisDayScrapperService = Mockito.spy(onThisDayScrapperService);
 
         Element span1 = Mockito.mock(Element.class);
@@ -161,14 +162,12 @@ public class TestOnThisDayScrapperService {
         Pair<String, String> nameAndDatePiusVI = Pair.of("Pius VI", "(1717-1799)");
         Pair<String, String> nameAndDateClaraBarton = Pair.of("Clara Barton", "(1821-1912)");
 
-        // Ajuste na configuração do mock para retornar o array diretamente
         Mockito.doAnswer(invocationOnMock -> titlesForSpan1).when(onThisDayScrapperService).splitTitle(span1);
         Mockito.doAnswer(invocationOnMock -> nameAndDatePiusVI).when(onThisDayScrapperService).extractNameAndDate(titlesForSpan1);
 
         Mockito.doAnswer(invocationOnMock -> titlesForSpan2).when(onThisDayScrapperService).splitTitle(span2);
         Mockito.doAnswer(invocationOnMock -> nameAndDateClaraBarton).when(onThisDayScrapperService).extractNameAndDate(titlesForSpan2);
 
-        // Criação da lista diretamente, em vez de mockar o array
         Elements mockSpanTitles = new Elements(span1, span2);
         PersonDTO personDTO = new PersonDTO();
         onThisDayScrapperService.fillNameAndLivingPeriod(mockSpanTitles, personDTO);
