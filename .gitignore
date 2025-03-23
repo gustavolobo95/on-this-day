@@ -37,3 +37,4 @@ build/
 
 ### Properties ###
 src/main/resources/application.properties
+compose.yaml
