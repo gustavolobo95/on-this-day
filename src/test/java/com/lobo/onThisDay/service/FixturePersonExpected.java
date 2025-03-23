@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.service;
 
-import com.lobo.onThisDay.model.PersonDTO;
+import com.lobo.onThisDay.dto.PersonDTO;
 
 import java.util.List;
 

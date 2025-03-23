@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.service;
 
-import com.lobo.onThisDay.model.PersonDTO;
+import com.lobo.onThisDay.dto.PersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

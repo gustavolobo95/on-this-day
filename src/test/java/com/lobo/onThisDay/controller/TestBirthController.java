@@ -2,7 +2,7 @@ package com.lobo.onThisDay.controller;
 
 import com.lobo.onThisDay.component.MonthDayConverter;
 import com.lobo.onThisDay.handler.GlobalExceptionHandler;
-import com.lobo.onThisDay.model.PersonDTO;
+import com.lobo.onThisDay.dto.PersonDTO;
 import com.lobo.onThisDay.service.BirthService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
