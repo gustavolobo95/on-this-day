@@ -2,6 +2,7 @@ package com.lobo.onThisDay.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 import java.time.LocalDate;
 
@@ -9,6 +10,7 @@ import java.time.LocalDate;
  * @author Gustavo Lobo
  */
 @Entity
+@Data
 public class Person {
 
     @Id
@@ -16,8 +18,9 @@ public class Person {
 
     private String name;
     private String description;
+    private String source;
     private LocalDate birth;
     private LocalDate death;
     private Long age;
-
+    
 }
