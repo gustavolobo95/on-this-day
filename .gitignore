@@ -34,7 +34,3 @@ build/
 
 ### Git ###
 .gitattributes
-
-### Properties ###
-src/main/resources/application.properties
-compose.yaml
