@@ -1,4 +1,4 @@
-package com.lobo.onThisDay.model;
+package com.lobo.onThisDay.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

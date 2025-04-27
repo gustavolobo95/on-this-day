@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.controller;
 
-import com.lobo.onThisDay.model.PersonDTO;
+import com.lobo.onThisDay.dto.PersonDTO;
 import com.lobo.onThisDay.service.BirthService;
 import com.lobo.onThisDay.component.MonthDayConverter;
 import lombok.RequiredArgsConstructor;

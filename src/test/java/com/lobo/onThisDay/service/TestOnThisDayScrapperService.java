@@ -1,6 +1,6 @@
 package com.lobo.onThisDay.service;
 
-import com.lobo.onThisDay.model.PersonDTO;
+import com.lobo.onThisDay.dto.PersonDTO;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
