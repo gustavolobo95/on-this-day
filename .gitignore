@@ -36,4 +36,4 @@ build/
 .gitattributes
 
 ### Codecov ###
-!**/src/main/resources/codecov-token.txt
+/src/main/resources/codecov-token.txt
