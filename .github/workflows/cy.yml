@@ -21,8 +21,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Validar Projeto (build)
-        run: mvn clean install -DskipTests
+      - name: Build, Testes e Coverage
+        run: mvn clean verify
 
-      - name: Rodar Testes
-        run: mvn test
+      - name: Enviar cobertura para Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
