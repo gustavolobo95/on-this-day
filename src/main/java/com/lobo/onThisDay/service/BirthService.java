@@ -19,6 +19,9 @@ public class BirthService {
     @Autowired
     private OnThisDayScrapperService onThisDayScrapperService;
 
+    @Autowired
+    private PersonService personService;
+
     /**
      * Esse metodo temporariamente ainda busca apenas as pessoas de destaque nas paginas de nascimento, será incrementado
      * futuramente para buscar a todos.
@@ -26,7 +29,12 @@ public class BirthService {
      * @return lista de pessoas nascidas em dia "x"
      */
     public List<PersonDTO> getPersonsBornIn(MonthDay date) {
-        return onThisDayScrapperService.getHighlightPersonsBornIn(date);
+        List<PersonDTO> highlightPersons = personService.getHighlightPersonsBornIn(date);
+
+        if(highlightPersons == null || highlightPersons.isEmpty())
+            return onThisDayScrapperService.getHighlightPersonsBornIn(date);
+
+        return highlightPersons;
     }
 
 }

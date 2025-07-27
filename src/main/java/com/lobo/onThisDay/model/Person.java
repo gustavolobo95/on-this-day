@@ -22,8 +22,21 @@ public class Person {
     private String name;
     private String description;
     private String source;
+    private String livingPeriodOrAge;
     private LocalDate birth;
     private LocalDate death;
-    private Long age;
+    private Integer age;
+
+    public Person(String name, String description, String source, String livingPeriodOrAge, LocalDate birth, LocalDate death, Integer age) {
+        this.name = name;
+        this.description = description;
+        this.source = source;
+        this.livingPeriodOrAge = livingPeriodOrAge;
+        this.birth = birth;
+        this.death = death;
+        this.age = age;
+    }
+
+    public Person() {};
 
 }

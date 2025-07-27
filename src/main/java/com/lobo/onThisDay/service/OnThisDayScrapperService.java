@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -28,9 +29,13 @@ import java.util.function.Function;
 public class OnThisDayScrapperService {
 
     // TODO: Talvez alterar a url base para ser especifica para nascimentos, outros eventos podem ter uma url em formato diferente.
-    private static final String BASE_URL = "https://www.onthisday.com/%s/%s/%d";
+    private static final String SOURCE = "https://www.onthisday.com";
+    private static final String BASE_URL = SOURCE + "/%s/%s/%d";
     private static final String BIRTH_EVENTS_URL = "birthdays";
     private static final Logger LOGGER = LoggerFactory.getLogger(OnThisDayScrapperService.class);
+
+    @Autowired
+    private PersonService personService;
 
     /**
      * Esse metodo será o responsável por fazer os requests da lista de nascidos na fonte do onthisday, de inicio estamos
@@ -60,6 +65,13 @@ public class OnThisDayScrapperService {
         }
 
         returnedPersonDTOS = orderPersonListByName(returnedPersonDTOS);
+
+        if(returnedPersonDTOS == null || returnedPersonDTOS.isEmpty()) {
+            LOGGER.info("Não há dados para persistir para a data: {}", date);
+            return returnedPersonDTOS;
+        }
+
+        personService.savePersons(returnedPersonDTOS, date, SOURCE);
 
         return returnedPersonDTOS;
     }
