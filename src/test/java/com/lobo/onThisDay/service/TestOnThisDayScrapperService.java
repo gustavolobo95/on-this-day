@@ -11,6 +11,7 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Month;
@@ -32,6 +33,9 @@ public class TestOnThisDayScrapperService {
 
     @Autowired
     private OnThisDayScrapperService onThisDayScrapperService;
+
+    @MockBean
+    private PersonService personService;
 
     @Test
     @DisplayName("Testa cases de tratamento para descrição, remove tags html e seus conteudos em caso de links.")
